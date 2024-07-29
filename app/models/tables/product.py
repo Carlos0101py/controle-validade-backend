@@ -1,6 +1,6 @@
 from app.db_config import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship, backref
-from sqlalchemy import String, Text, Double, ForeignKey
+from sqlalchemy import String, Text, Double, ForeignKey, INTEGER
 from uuid import uuid4
 
 
@@ -13,12 +13,14 @@ class Product(Base):
     batch: Mapped[str] = mapped_column(String(60), unique=True, nullable=False)
     stockQuantity: Mapped[Double] = mapped_column(Double, unique=False, nullable=False) 
     supplier: Mapped[str] = mapped_column(String(100), unique=False, nullable=False)
-    user_id: Mapped[str] = mapped_column(String(100), ForeignKey("user.id"), unique=False, nullable=False)
-    category_id: Mapped[str] = mapped_column(String(100), ForeignKey("category.id"), unique=False, nullable=False)
+    situation: Mapped[int] = mapped_column(INTEGER, ForeignKey("situation_product.id"), unique=True, nullable=False)
+    status: Mapped[int] = mapped_column(INTEGER, ForeignKey("status_product.id"), unique=True, nullable=False)
+    user_id: Mapped[str] = mapped_column(String(100), ForeignKey("user.id"), unique=True, nullable=False)
+    category_id: Mapped[str] = mapped_column(String(100), ForeignKey("category.id"), unique=True, nullable=False)
 
     def __ini__(self, name:str, description:str, manufacture_at:str, expiry_at:str,
                 Product_code:str, batch:str, stockQuantity:Double, supplier:str,
-                category_id:str, user_id:str):
+                category_id:str, user_id:str, situation:int, status:int):
         self.name = name
         self.description = description
         self.manufacture_at = manufacture_at
@@ -29,3 +31,5 @@ class Product(Base):
         self.supplier = supplier
         self.user_id = user_id
         self.category_id = category_id
+        self.situation = situation
+        self.status = status
