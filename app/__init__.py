@@ -4,7 +4,7 @@ from .db_config import db, migrate, ma
 from dotenv import load_dotenv
 from app.controllers.routes.user_routes import user_route
 from app.controllers.routes.category_route import category_route 
-from app.controllers.routes.product_route import product_route 
+from app.controllers.routes.product_route import product_route
 import os
 
 
