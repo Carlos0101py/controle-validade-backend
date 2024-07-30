@@ -20,14 +20,25 @@ def create_product():
             manufacture_at = body['manufacture_at']
             description = body['description']
             expiry_at = body['expiry_at']
-            Product_code = body['Product_code']
+            product_code = body['Product_code']
             batch = body['batch']
             stockQuantity = body['stockQuantity']
             supplier = body['supplier']
             user_id = body['user_id']
             category_id = body['category_id']
 
+            product = Product(name=name, manufacture_at=manufacture_at, description=description,
+                            expiry_at=expiry_at, product_code=product_code, batch=batch, 
+                            stockQuantity=stockQuantity, supplier=supplier, user_id=user_id, category_id=category_id)
             
+            db.session.add(product)
+            db.session.commit()
+            db.session.close()
+
+            return jsonify({
+                'status': 'ok',
+                'message': 'Produto criado com sucesso!'
+            }), 201
 
         except Exception as error:
             return jsonify({
