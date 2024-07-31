@@ -12,25 +12,25 @@ def create_category():
     if request.method == 'POST':
         try:
             body = request.get_json()
-            name = body['name']
-            name = name.upper() #deixa a letra em capslock
+            name = body['name'].upper()
             has_name = Category.query.filter_by(name=name).first()
             
-            if has_name.name == name:
+            if has_name == None:
+                print('ola')
+                category = Category(name=name)
+                db.session.add(category)
+                db.session.commit()
+                db.session.close()
+
                 return jsonify({
-                    'status': 'error',
-                    'message': 'Não foi possivel concluir a tarefa, categoria já existente!'
-                }), 409
-            
-            category = Category(name=name)
-            db.session.add(category)
-            db.session.commit()
-            db.session.close()
+                    'status': 'ok',
+                    'message': 'Categoria criada com sucesso!'
+                }), 201
             
             return jsonify({
-                'status': 'ok',
-                'message': 'Categoria criada com sucesso!'
-            }), 201
+                'status': 'error',
+                'message': 'A Categoria já existe!'
+            }), 409
         
         except:
             return jsonify({

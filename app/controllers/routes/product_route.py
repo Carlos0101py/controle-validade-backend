@@ -17,19 +17,21 @@ def create_product():
         try:
             body = request.get_json()
             name = body['name']
-            manufacture_at = body['manufacture_at']
             description = body['description']
+            manufacture_at = body['manufacture_at']
             expiry_at = body['expiry_at']
-            product_code = body['Product_code']
+            product_code = body['product_code']
             batch = body['batch']
             stockQuantity = body['stockQuantity']
             supplier = body['supplier']
+            situation = body['situation']
+            status = body['status']
             user_id = body['user_id']
             category_id = body['category_id']
-
-            product = Product(name=name, manufacture_at=manufacture_at, description=description,
-                            expiry_at=expiry_at, product_code=product_code, batch=batch, 
-                            stockQuantity=stockQuantity, supplier=supplier, user_id=user_id, category_id=category_id)
+            
+            product = Product(name=name, description=description, manufacture_at=manufacture_at,expiry_at=expiry_at,
+                            product_code=product_code, batch=batch, stockQuantity=stockQuantity,
+                            supplier=supplier, category_id=category_id, user_id=user_id, situation=situation, status=status)
             
             db.session.add(product)
             db.session.commit()
@@ -41,6 +43,7 @@ def create_product():
             }), 201
 
         except Exception as error:
+            print(error)
             return jsonify({
                     'status': 'error',
                     'message': 'An error has occurred!'
