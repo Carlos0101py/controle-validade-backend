@@ -57,7 +57,7 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('manufacture_at', sa.String(length=45), nullable=False),
     sa.Column('expiry_at', sa.String(length=45), nullable=False),
-    sa.Column('Product_code', sa.String(length=90), nullable=False),
+    sa.Column('product_code', sa.String(length=90), nullable=False),
     sa.Column('batch', sa.String(length=60), nullable=False),
     sa.Column('stockQuantity', sa.Double(), nullable=False),
     sa.Column('supplier', sa.String(length=100), nullable=False),
@@ -79,39 +79,6 @@ def upgrade():
     sa.UniqueConstraint('status'),
     sa.UniqueConstraint('user_id')
     )
-
-    situation_products = [
-        {'name': "Longe a data"},
-        {'name': "Proximo a data"},
-        {'name': "Produto vencido"},
-    ]
-
-    status_products = [
-        {'name': "Ativo"},
-        {'name': "Concluido"},
-    ]
-
-    # Adicionando os dados ao banco de dados
-    conn = op.get_bind()
-    
-    # Inserir dados na tabela situation_product
-    for situation in situation_products:
-        conn.execute(
-            sa.text(
-                "INSERT INTO situation_product (name) VALUES (:name)"
-            ),
-            {'name': situation['name']}
-        )
-    
-    # Inserir dados na tabela status_product
-    for status in status_products:
-        conn.execute(
-            sa.text(
-                "INSERT INTO status_product (name) VALUES (:name)"
-            ),
-            {'name': status['name']}
-        )
-
 
     # ### end Alembic commands ###
 

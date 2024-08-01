@@ -25,5 +25,4 @@ def create_app():
     app.register_blueprint(category_route)
     app.register_blueprint(product_route)
 
-
     return app
