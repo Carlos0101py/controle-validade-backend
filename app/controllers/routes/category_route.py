@@ -46,10 +46,10 @@ def get_all_category():
             category_schema = CategorySchema(many=True)
             payload = category_schema.dump(category)
 
-            if category == None:
+            if not category:
                 return jsonify({
                     'status': 'error',
-                    'message': 'Não categorias cadastradas!'
+                    'message': 'Categorias não cadastradas!'
                 }), 404
             
             return jsonify({

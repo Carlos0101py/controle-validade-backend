@@ -48,3 +48,31 @@ def create_product():
                     'status': 'error',
                     'message': 'An error has occurred!'
                 }), 500
+        
+
+@product_route.route('/api/v1/get_all_product', methods=["POST"])
+def get_all_product():
+    if request.method == 'POST':
+        try:
+            product = Product.query.all()
+            product_schema = ProductSchema(many=True)
+            payload = product_schema.dump(product)
+
+            print(payload)
+            
+            if not product:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Produtos não cadastrados!'
+                }), 404
+            
+            return jsonify({
+                'product': payload
+            }), 200
+
+        except Exception as error:
+            print(error)
+            return jsonify({
+                    'status': 'error',
+                    'message': 'An error has occurred!'
+                }), 500

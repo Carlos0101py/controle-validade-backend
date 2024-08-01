@@ -79,7 +79,7 @@ def get_users():
             user_schema = UserSchema(many=True)
             payload = user_schema.dump(users)
 
-            if users == None:
+            if not users:
                 return jsonify({
                     'status': 'error',
                     'message': 'Não existe usuários cadastrados!'
