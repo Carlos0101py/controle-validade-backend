@@ -27,36 +27,6 @@ def upgrade():
               existing_type=mysql.VARCHAR(length=45),
               type_=sa.DateTime(),
               existing_nullable=False)
-       
-       situation_products = [
-              {'name': "Longe a data"},
-              {'name': "Proximo a data"},
-              {'name': "Produto vencido"},
-       ]
-
-       status_products = [
-              {'name': "Ativo"},
-              {'name': "Concluido"},
-       ]
-
-       # Adicionando os dados ao banco de dados
-       conn = op.get_bind()
-       
-       # Inserir dados na tabela situation_product
-       for situation in situation_products:
-              if not conn.execute(sa.text("SELECT 1 FROM situation_product WHERE name = :name"), {'name': situation['name']}).fetchone():
-                     conn.execute(
-                     sa.text("INSERT INTO situation_product (name) VALUES (:name)"),
-                     {'name': situation['name']}
-                     )
-              
-       # Inserir dados na tabela status_product, se não existirem
-       for status in status_products:
-              if not conn.execute(sa.text("SELECT 1 FROM status_product WHERE name = :name"), {'name': status['name']}).fetchone():
-                     conn.execute(
-                     sa.text("INSERT INTO status_product (name) VALUES (:name)"),
-                     {'name': status['name']}
-                     )
 
     # ### end Alembic commands ###
 

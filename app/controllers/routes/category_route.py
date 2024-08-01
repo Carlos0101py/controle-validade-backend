@@ -16,7 +16,6 @@ def create_category():
             has_name = Category.query.filter_by(name=name).first()
             
             if has_name == None:
-                print('ola')
                 category = Category(name=name)
                 db.session.add(category)
                 db.session.commit()
