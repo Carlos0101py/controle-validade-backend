@@ -1,11 +1,7 @@
 from app.db_config import db
 from app.models.tables.product import Product
-from app.models.tables.situation_product import Situation_product
-from app.models.tables.status_product import Status_product
 from flask import jsonify, request, Blueprint
 from app.models.schemas.product_schema import ProductSchema
-from app.models.schemas.situation_schema import Situation_product
-from app.models.schemas.status_schema import Status_product
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -58,8 +54,6 @@ def get_all_product():
             product_schema = ProductSchema(many=True)
             payload = product_schema.dump(product)
 
-            print(payload)
-            
             if not product:
                 return jsonify({
                     'status': 'error',

@@ -25,7 +25,7 @@ class Product(Base):
         self.description = description
         self.manufacture_at = manufacture_at
         self.expiry_at = expiry_at
-        self.Product_code = product_code
+        self.product_code = product_code
         self.batch = batch
         self.stockQuantity = stockQuantity
         self.supplier = supplier
