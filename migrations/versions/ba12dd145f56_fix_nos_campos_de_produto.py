@@ -1,8 +1,8 @@
-"""Commit inicial
+"""fix nos campos de produto
 
-Revision ID: ef22e6f9a80a
+Revision ID: ba12dd145f56
 Revises: 
-Create Date: 2024-07-29 03:19:54.157109
+Create Date: 2024-07-31 23:59:12.995342
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ef22e6f9a80a'
+revision = 'ba12dd145f56'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,8 +55,8 @@ def upgrade():
     op.create_table('product',
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('manufacture_at', sa.String(length=45), nullable=False),
-    sa.Column('expiry_at', sa.String(length=45), nullable=False),
+    sa.Column('manufacture_at', sa.DateTime(), nullable=False),
+    sa.Column('expiry_at', sa.DateTime(), nullable=False),
     sa.Column('product_code', sa.String(length=90), nullable=False),
     sa.Column('batch', sa.String(length=60), nullable=False),
     sa.Column('stockQuantity', sa.Double(), nullable=False),
@@ -73,13 +73,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['status'], ['status_product.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('batch'),
-    sa.UniqueConstraint('category_id'),
-    sa.UniqueConstraint('situation'),
-    sa.UniqueConstraint('status'),
-    sa.UniqueConstraint('user_id')
+    sa.UniqueConstraint('batch')
     )
-
     # ### end Alembic commands ###
 
 
