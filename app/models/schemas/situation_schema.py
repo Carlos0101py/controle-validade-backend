@@ -6,3 +6,4 @@ class SituationSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Situation_product
         load_instance = True
+        exclude=['updated_at', 'created_at']
