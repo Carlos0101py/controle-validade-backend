@@ -46,9 +46,9 @@ def create_product():
                 }), 500
         
 
-@product_route.route('/api/v1/get_all_product', methods=["POST"])
+@product_route.route('/api/v1/get_all_product', methods=["GET"])
 def get_all_product():
-    if request.method == 'POST':
+    if request.method == 'GET':
         try:
             product = Product.query.all()
             product_schema = ProductSchema(many=True)
