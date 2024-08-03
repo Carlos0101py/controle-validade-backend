@@ -13,14 +13,16 @@ class Product(Base):
     batch: Mapped[str] = mapped_column(String(60), unique=True, nullable=False)
     stockQuantity: Mapped[Double] = mapped_column(Double, unique=False, nullable=False) 
     supplier: Mapped[str] = mapped_column(String(100), unique=False, nullable=False)
-    situation: Mapped[int] = mapped_column(INTEGER, ForeignKey("situation_product.id"), unique=False, nullable=False)
-    status: Mapped[int] = mapped_column(INTEGER, ForeignKey("status_product.id"), unique=False, nullable=False)
+    # situation: Mapped[int] = mapped_column(INTEGER, ForeignKey("situation_product.id"), unique=False, nullable=False)
+    # status: Mapped[int] = mapped_column(INTEGER, ForeignKey("status_product.id"), unique=False, nullable=False)
+    situation: Mapped[str] = mapped_column(String(100), ForeignKey("situation_product.id"), unique=False, nullable=False)
+    status: Mapped[str] = mapped_column(String(100), ForeignKey("status_product.id"), unique=False, nullable=False)
     user_id: Mapped[str] = mapped_column(String(100), ForeignKey("user.id"), unique=False, nullable=False)
     category_id: Mapped[str] = mapped_column(String(100), ForeignKey("category.id"), unique=False, nullable=False)
 
     def __ini__(self, name:str, description:str, manufacture_at:DateTime, expiry_at:DateTime,
                 product_code:str, batch:str, stockQuantity:Double, supplier:str,
-                category_id:str, user_id:str, situation:int, status:int):
+                category_id:str, user_id:str, situation:str, status:str):
         self.name = name
         self.description = description
         self.manufacture_at = manufacture_at
