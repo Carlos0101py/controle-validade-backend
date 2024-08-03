@@ -6,3 +6,4 @@ class CategorySchema(ma.SQLAlchemyAutoSchema):
     class Meta: 
         model = Category 
         load_instance = True
+        exclude=['updated_at', 'created_at']

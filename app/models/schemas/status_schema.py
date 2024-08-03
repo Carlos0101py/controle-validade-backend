@@ -6,3 +6,4 @@ class StatusSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Status_product
         load_instance = True
+        exclude=['updated_at', 'created_at']
