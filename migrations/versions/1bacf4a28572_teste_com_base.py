@@ -1,8 +1,8 @@
-"""fix nos campos de produto
+"""teste com base
 
-Revision ID: ba12dd145f56
+Revision ID: 1bacf4a28572
 Revises: 
-Create Date: 2024-07-31 23:59:12.995342
+Create Date: 2024-08-02 22:18:34.241586
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'ba12dd145f56'
+revision = '1bacf4a28572'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,17 +27,19 @@ def upgrade():
     sa.UniqueConstraint('name')
     )
     op.create_table('situation_product',
-    sa.Column('id', sa.INTEGER(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=45), nullable=False),
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('name')
     )
     op.create_table('status_product',
-    sa.Column('id', sa.INTEGER(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=45), nullable=False),
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('id'),
     sa.UniqueConstraint('name')
     )
     op.create_table('user',
@@ -61,8 +63,8 @@ def upgrade():
     sa.Column('batch', sa.String(length=60), nullable=False),
     sa.Column('stockQuantity', sa.Double(), nullable=False),
     sa.Column('supplier', sa.String(length=100), nullable=False),
-    sa.Column('situation', sa.INTEGER(), nullable=False),
-    sa.Column('status', sa.INTEGER(), nullable=False),
+    sa.Column('situation', sa.String(length=100), nullable=False),
+    sa.Column('status', sa.String(length=100), nullable=False),
     sa.Column('user_id', sa.String(length=100), nullable=False),
     sa.Column('category_id', sa.String(length=100), nullable=False),
     sa.Column('id', sa.String(length=36), nullable=False),
