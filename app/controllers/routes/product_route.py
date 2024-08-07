@@ -3,6 +3,7 @@ from app.models.tables.product import Product
 from flask import jsonify, request, Blueprint
 from app.models.schemas.product_schema import ProductSchema
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.functions.func import datatime_to_days
 
 
 product_route = Blueprint('product_route', __name__)
@@ -20,14 +21,13 @@ def create_product():
             batch = body['batch']
             stockQuantity = body['stockQuantity']
             supplier = body['supplier']
-            situation = body['situation']
             status = body['status']
             user_id = body['user_id']
             category_id = body['category_id']
             
             product = Product(name=name, description=description, manufacture_at=manufacture_at,expiry_at=expiry_at,
                             product_code=product_code, batch=batch, stockQuantity=stockQuantity,
-                            supplier=supplier, category_id=category_id, user_id=user_id, situation=situation, status=status)
+                            supplier=supplier, category_id=category_id, user_id=user_id, status=status)
             
             db.session.add(product)
             db.session.commit()
@@ -59,6 +59,9 @@ def get_all_product():
                     'status': 'error',
                     'message': 'Produtos não cadastrados!'
                 }), 404
+            
+            for item in payload:
+                item['expiry_at'] = datatime_to_days(item['expiry_at'])
             
             return jsonify({
                 'product': payload
