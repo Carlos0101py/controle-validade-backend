@@ -3,6 +3,7 @@ from app.models.tables.user import User
 from flask import jsonify, request, Blueprint
 from app.models.schemas.user_schema import UserSchema
 from werkzeug.security import generate_password_hash, check_password_hash
+import os, jwt
 
 
 user_route = Blueprint('user_route', __name__)
@@ -37,6 +38,47 @@ def create_user():
             }), 201
         
         except Exception as error:
+            return jsonify({
+                    'status': 'error',
+                    'message': 'An error has occurred!'
+                }), 500
+        
+
+@user_route.route('/api/v1/login', methods=["POST"])
+def authenticate_user():
+    if request.method == 'POST':
+        try:
+            body = request.get_json()
+            username = body['username']
+            password = body['password']
+
+            user = User.query.filter_by(username=username).first()
+
+            if user == None:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Nome de usuário: {username} não esta cadastrado, por favor, verifique as informações!'
+                })
+
+            check_password = check_password_hash(user.password_hash, password)
+
+            if check_password:
+                secret_key = os.getenv('SECRET_KEY')
+                auth_token = jwt.encode({'email': user.email, 'user_id': user.id}, secret_key)
+
+                return jsonify({
+                    'status': 'ok',
+                    'message': 'Usuário autenticado com sucesso!',
+                    'token': auth_token
+                }), 200
+            
+            else:
+                return jsonify({
+                    "status": 'error',
+                    'message': 'Senha incorreta!'
+                }), 400
+
+        except:
             return jsonify({
                     'status': 'error',
                     'message': 'An error has occurred!'
