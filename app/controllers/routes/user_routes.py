@@ -57,7 +57,7 @@ def authenticate_user():
             if user == None:
                 return jsonify({
                     'status': 'error',
-                    'message': 'Nome de usuário: {username} não esta cadastrado, por favor, verifique as informações!'
+                    'message': f'Nome de usuário: {username} não esta cadastrado, por favor, verifique as informações!'
                 })
 
             check_password = check_password_hash(user.password_hash, password)
