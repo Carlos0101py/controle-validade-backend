@@ -9,7 +9,9 @@ class Group(Base):
     __tablename__ = 'group'
     
     name: Mapped[str] = mapped_column(String(100), unique=False, nullable=False)
+    creator_id: Mapped[str] = mapped_column(String(100), unique=False, nullable=False)
     users = relationship("User", secondary=user_has_group, back_populates="groups")
 
-    def __init__(self, name:str):
+    def __init__(self, name:str, creator_id:str):
         self.name = name
+        self.creator_id = creator_id
