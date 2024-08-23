@@ -1,4 +1,6 @@
 from app.db_config import Base
+from app.models.tables.group import Group
+from app.models.tables.product_has_group import product_has_group
 from sqlalchemy.orm import Mapped, mapped_column, relationship, backref
 from sqlalchemy import String, Text, Double, ForeignKey, INTEGER, DateTime
 from uuid import uuid4
@@ -16,6 +18,7 @@ class Product(Base):
     status: Mapped[str] = mapped_column(String(100), ForeignKey("status_product.id"), unique=False, nullable=False)
     user_id: Mapped[str] = mapped_column(String(100), ForeignKey("user.id"), unique=False, nullable=False)
     category_id: Mapped[str] = mapped_column(String(100), ForeignKey("category.id"), unique=False, nullable=False)
+    groups = relationship("Group", secondary=product_has_group, back_populates="products")
 
     def __ini__(self, name:str, description:str, manufacture_at:DateTime, expiry_at:DateTime,
                 product_code:str, batch:str, stockQuantity:Double, supplier:str,
