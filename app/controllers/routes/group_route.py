@@ -67,31 +67,3 @@ def add_new_member():
                     'status': 'error',
                     'message': 'An error has occurred!'
                 }), 500
-        
-
-# @group_route.route('/api/v1/add_new_product', methods=["POST"])
-# def add_new_member():
-#     if request.method == 'POST':
-#         try:
-#             body = request.get_json()
-#             product_id = body['product_id']
-#             group_id = body['group_id']
-
-#             product_has_group_entry = {
-#                 'product_id': product_id,
-#                 'group_id': group_id 
-#             }
-#             db.session.execute(product_has_group.insert().values(product_has_group_entry))
-#             db.session.commit()
-
-#             return jsonify({
-#                 'status': 'ok',
-#                 'message': 'Novo mebro adicionado com sucesso!'
-#             }), 201
-        
-#         except Exception as error:
-#             print(error)
-#             return jsonify({
-#                     'status': 'error',
-#                     'message': 'An error has occurred!'
-#                 }), 500

@@ -136,3 +136,45 @@ def get_users():
                     'status': 'error',
                     'message': 'An error has occurred!'
                 }), 500
+        
+
+@user_route.route('/api/v1/delete_user', methods=["DELETE"])
+def delete_user():
+    if request.method == 'DELETE':
+        try:
+            body = request.get_json()
+            username = body['user_name']
+            password = body['password']
+
+            user = User.query.filter_by(username=username).first()
+
+            if(user == None):
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Usuário não existente!'
+                }), 404
+            
+            check_password = check_password_hash(user.password_hash, password)
+            print(check_password)
+            if(check_password):
+                db.session.delete(user)
+                db.session.commit()
+                db.session.close()
+
+                return jsonify({
+                    'status': 'ok',
+                    'message': 'Usuário deletado com sucesso!'
+                }), 200
+            
+            else:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Senha incorreta!'
+                }), 200
+            
+        except Exception as error:
+            print(error)
+            return jsonify({
+                    'status': 'error',
+                    'message': 'An error has occurred!'
+                }), 500

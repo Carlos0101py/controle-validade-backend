@@ -46,6 +46,39 @@ def create_product():
                 }), 500
         
 
+@product_route.route('/api/v1/delete_product', methods=["DELETE"])
+def delete_product():
+    if request.method == 'DELETE':
+        try:
+            body = request.get_json()
+            product_id = body['product_id']
+
+            product = Product.query.filter_by(id=product_id).first()
+
+            if (product == None):
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Produto não foi encontrado'
+                }), 404
+            
+            if(product):
+                db.session.delete(product)
+                db.session.commit()
+                db.session.close()
+
+                return jsonify({
+                    'status': 'ok',
+                    'message': 'Produto deletado com sucesso!'
+                }), 200
+
+        except Exception as error:
+            print(error)
+            return jsonify({
+                    'status': 'error',
+                    'message': 'An error has occurred!'
+                }), 500
+
+
 @product_route.route('/api/v1/get_all_product', methods=["GET"])
 def get_all_product():
     if request.method == 'GET':

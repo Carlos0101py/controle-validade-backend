@@ -14,7 +14,7 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(320), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
-    product = relationship('Product', backref='user')
+    product = relationship('Product', backref='user', cascade='all, delete-orphan')
     groups = relationship("Group", secondary=user_has_group, back_populates="users")
     
     def __init__(self, name:str, username:str, email:str, password_hash:str):
