@@ -58,7 +58,7 @@ def authenticate_user():
                 return jsonify({
                     'status': 'error',
                     'message': f'Nome de usuário: {username} não esta cadastrado, por favor, verifique as informações!'
-                })
+                }), 404
 
             check_password = check_password_hash(user.password_hash, password)
 
@@ -104,7 +104,7 @@ def get_one_user():
             return jsonify({
                 'status': 'ok',
                 'user': payload
-            })
+            }), 200
         
         except:
             return jsonify({
