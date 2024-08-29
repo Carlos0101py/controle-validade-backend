@@ -22,6 +22,7 @@ Este projeto foi criado com o objetivo de desenvolver uma solução prática par
 - [Flask](https://flask.palletsprojects.com) - Micro framework web para Python.
 - [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com) - Extensão para integração com bancos de dados usando SQLAlchemy.
 - [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) - Extensão para gerenciamento de migrações de banco de dados.
+- [Pytest](https://docs.pytest.org/en/stable/index.html) - Biblioteca usada para execução de testes unitários das rotas.
 - [Python](https://www.python.org) - Linguagem de programação utilizada.
 - [MySQL](https://www.mysql.com) - Sistema de gerenciamento de banco de dados relacional.
 
