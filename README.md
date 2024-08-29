@@ -41,10 +41,10 @@ Siga as instruções abaixo para configurar o ambiente de desenvolvimento local:
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seuusuario/seu-projeto.git
+git clone https://github.com/Carlos0101py/controle-validade-backend.git
 
 # Entre no diretório do projeto
-cd seu-projeto
+cd controle-validade-backend
 
 # Crie um ambiente virtual
 python -m venv venv
