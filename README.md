@@ -32,6 +32,7 @@ As principais funcionalidades e recursos do projeto incluem:
 
 - Autenticação de usuários.
 - Criação e gerenciamento de produtos.
+- Criação e gerenciamento de grupos para visualização dos produtos por mais de um usuário.
 - Filtros avançados para busca e visualização de informações.
 
 ## Instalação
