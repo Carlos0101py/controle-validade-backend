@@ -39,21 +39,29 @@ As principais funcionalidades e recursos do projeto incluem:
 
 Siga as instruções abaixo para configurar o ambiente de desenvolvimento local:
 
-```bash
-# Clone o repositório
-git clone https://github.com/Carlos0101py/controle-validade-backend.git
+1. Clone o repositório:
+   git clone https://github.com/seuusuario/seu-projeto.git
 
-# Entre no diretório do projeto
-cd controle-validade-backend
+2. Entre no diretório do projeto:
+   cd seu-projeto
 
-# Crie um ambiente virtual
-python -m venv venv
+3. Crie um ambiente virtual:
+ ``` python -m venv venv ```
 
-# Ative o ambiente virtual
-# No Linux/macOS:
-source venv/bin/activate
-# No Windows:
-venv\Scripts\activate
+4. Configure as variáveis de ambiente:
 
-# Instale as dependências
-pip install -r requirements.txt
+   Você precisará definir duas variáveis de ambiente com as seguintes informações:
+
+   1. DATABASE_URI = "string de conexão com o MySQL ou similar"
+   2. SECRET_KEY = "Senha que você preferir"
+
+5. Ative o ambiente virtual:
+
+   - No Linux/macOS:
+     source venv/bin/activate
+
+   - No Windows:
+     venv\Scripts\activate
+
+6. Instale as dependências:
+   ``` pip install -r requirements.txt ```
