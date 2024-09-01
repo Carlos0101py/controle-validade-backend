@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_mysqldb import MySQL
+from flasgger import Swagger
 from .db_config import db, migrate, ma
 from dotenv import load_dotenv
 from app.controllers.routes.user_routes import user_route
@@ -17,6 +18,8 @@ def create_app():
 
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    swagger = Swagger(app)
 
     db.init_app(app)
     migrate.init_app(app, db)
