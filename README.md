@@ -8,7 +8,7 @@ Uma API desenvolvida para fornecer uma solução web eficaz no controle de valid
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Funcionalidades](#funcionalidades)
 - [Instalação](#instalação)
-- [Como Usar](#como-usar)
+- [Como Testar](#como-testar)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 - [Contato](#contato)
@@ -56,3 +56,19 @@ venv\Scripts\activate
 
 # Instale as dependências
 pip install -r requirements.txt
+
+# Faça a inicialização do banco de dados
+flask db upgrade
+```
+
+## Como Testar
+Inicialize o servidor do flask
+```
+python run.py
+```
+Acesse a URL da documentação interativa no navegador
+```
+http://127.0.0.1:5000/apidocs/ 
+```
+
+
