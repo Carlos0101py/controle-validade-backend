@@ -22,6 +22,7 @@ Este projeto foi criado com o objetivo de desenvolver uma solução prática par
 - [Flask](https://flask.palletsprojects.com) - Micro framework web para Python.
 - [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com) - Extensão para integração com bancos de dados usando SQLAlchemy.
 - [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) - Extensão para gerenciamento de migrações de banco de dados.
+- [flasgger](https://github.com/flasgger/flasgger) - Gerador automatico de documentação com base em anotações nas rotas Flask
 - [Python](https://www.python.org) - Linguagem de programação utilizada.
 - [MySQL](https://www.mysql.com) - Sistema de gerenciamento de banco de dados relacional.
 
