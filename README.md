@@ -38,26 +38,42 @@ As principais funcionalidades e recursos do projeto incluem:
 
 Siga as instruções abaixo para configurar o ambiente de desenvolvimento local:
 
-```bash
-# Clone o repositório
+Clone o repositório
+```
 git clone https://github.com/seuusuario/seu-projeto.git
+```
 
-# Entre no diretório do projeto
-cd seu-projeto
+Entre no diretório do projeto
+```
+cd "seu-projeto"
+```
 
-# Crie um ambiente virtual
+Crie um ambiente virtual
+```
 python -m venv venv
+```
 
-# Ative o ambiente virtual
-# No Linux/macOS:
+Ative o ambiente virtual
+No Linux/macOS:
+```
 source venv/bin/activate
-# No Windows:
+```
+No Windows:
+```
 venv\Scripts\activate
+```
 
-# Instale as dependências
+Instale as dependências
+```
 pip install -r requirements.txt
+```
 
-# Faça a inicialização do banco de dados
+Configure as variáveis de ambiente:
+   1. DATABASE_URI = "string de conexão com o MySQL ou similar"
+   2. SECRET_KEY = "Senha que você preferir"
+
+Faça a inicialização do banco de dados
+```
 flask db upgrade
 ```
 
