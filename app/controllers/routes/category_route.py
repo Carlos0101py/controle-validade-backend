@@ -61,3 +61,40 @@ def get_all_category():
                     'status': 'error',
                     'message': 'An error has occurred!'
                 }), 500
+        
+
+@category_route.route('/api/v1/delete_category', methods=["DELETE"])
+def delete_category():
+    if request.method == 'DELETE':
+        try:
+            body = request.get_json()
+            name = body['name']
+
+            if not name:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Categoria é um parametro requerido!'
+                }), 400
+            
+            category = Category.query.filter_by(name=name).first()
+
+            if category == None:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Categoria não cadastrada!'
+                }), 404
+            
+            db.session.delete(category)
+            db.session.commit()
+            db.session.close()
+
+            return jsonify({
+                'status': 'ok',
+                'message': 'Categoria deletada com sucesso!'
+            }), 200
+        
+        except:
+            return jsonify({
+                    'status': 'error',
+                    'message': 'An error has occurred!'
+                }), 500
