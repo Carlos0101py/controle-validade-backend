@@ -474,9 +474,114 @@ responses:
                     'message': 'An error has occurred!'
                 }), 500
         
-        
+
 @user_route.route('/api/v1/change_user', methods=["PUT"])
 def change_user():
+    
+    """
+    Change a user.
+---
+parameters:
+  - name: body
+    in: body
+    required: true
+    description: JSON body with all fields containing updated or not user information
+    schema:
+      type: object
+      required:
+        -user_id
+        -name
+        -username
+        -email
+        -password
+        -re_password
+      properties:
+        user_id:
+          type: string
+          description: user id to be changed
+        name:
+          type: string
+          description: new name
+        username:
+          type: string
+          description: new unique username
+        email:
+          type: string
+          description: new email
+        password:
+          type: string
+          description: New Password
+        re_password:
+          type: string
+          description: password confirmation
+responses:
+  200:
+    description: User data updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: ok
+            message:
+              type: string
+              example: 'data changed successfully'
+  404:
+    description: user not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'user not found'
+  409:
+    description: Username is already in use
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'Conflict'
+            message:
+              type: string
+              example: 'Username is already in use'   
+  400:
+    description: user passwords do not match
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'passwords dont match'
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'An error has occurred!'
+      """
+
     if(request.method == 'PUT'):
         try:
             body = request.get_json()
@@ -506,7 +611,7 @@ def change_user():
                 return jsonify({
                     'status': 'error',
                     'message': 'Atenção, Senhas não coencidem!'
-                })
+                }), 400
             
             password_hash = generate_password_hash(password)
             
