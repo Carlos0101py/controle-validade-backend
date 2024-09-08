@@ -473,3 +473,59 @@ responses:
                     'status': 'error',
                     'message': 'An error has occurred!'
                 }), 500
+        
+        
+@user_route.route('/api/v1/change_user', methods=["PUT"])
+def change_user():
+    if(request.method == 'PUT'):
+        try:
+            body = request.get_json()
+            user_id = body['id']
+            name = body['name']
+            username = body['username']
+            email = body['email']
+            password = body['password']
+            re_password = body['re_password']
+
+            user = User.query.filter_by(id=user_id).first()
+            name_in_use = User.query.filter_by(username=username).first()
+
+            if user == None:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Usuário não encontrado!'
+                }), 404
+            
+            if name_in_use != None and name_in_use.id != user.id:
+                return jsonify({
+                    'status': 'Conflict',
+                    'message': 'Nome de usuário já esta em uso!'
+                }), 409
+            
+            if password != re_password:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Atenção, Senhas não coencidem!'
+                })
+            
+            password_hash = generate_password_hash(password)
+            
+            user.name = name
+            user.username = username
+            user.email = email
+            user.password_hash = password_hash
+
+            db.session.commit()
+            db.session.close()
+
+            return jsonify({
+                'status': 'ok',
+                'message': 'Alteração feita com sucesso!'
+            }), 200
+        
+        except Exception as error:
+            print(error)
+            return jsonify({
+                    'status': 'error',
+                    'message': 'An error has occurred!'
+                }), 500
