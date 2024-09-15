@@ -10,6 +10,50 @@ user_route = Blueprint('user_route', __name__)
 
 @user_route.route('/api/v1/create_user', methods=["POST"])
 def create_user():
+
+    """
+    Create a new user.
+    ---
+    tags:
+      - User
+    parameters:
+      - name: body
+        in: body
+        required: true
+        description: JSON body with user details
+        schema:
+          type: object
+          required:
+            - name
+            - username
+            - email
+            - password
+            - re_password
+          properties:
+            name:
+              type: string
+              description: The name of the user
+            username:
+              type: string
+              description: The username for the account
+            email:
+              type: string
+              description: The email of the user
+            password:
+              type: string
+              description: The password for the account
+            re_password:
+              type: string
+              description: Confirmation of the password
+    responses:
+      201:
+        description: User successfully created
+      400:
+        description: Passwords do not match
+      500:
+        description: Internal server error
+    """
+
     if request.method == 'POST':
         try:
             body = request.get_json()
@@ -46,6 +90,38 @@ def create_user():
 
 @user_route.route('/api/v1/login', methods=["POST"])
 def authenticate_user():
+
+    """
+    Login to the system.
+    ---
+    tags:
+      - User
+    parameters:
+      - name: body
+        in: body
+        required: true
+        description: JSON body with username and password
+        schema:
+          type: object
+          required:
+            - username
+            - password
+          properties:
+            username:
+              type: string
+              description: The username for the account
+            password:
+              type: string
+              description: The password for the account
+    responses:
+      200:
+        description: user successfully logged in
+      404:
+        description: invalid user information
+      500:
+        description: Internal server error
+    """
+
     if request.method == 'POST':
         try:
             body = request.get_json()
@@ -87,15 +163,110 @@ def authenticate_user():
 
 @user_route.route('/api/v1/get_one_user', methods=["GET"])
 def get_one_user():
+
+    """
+    Get a user by username.
+    ---
+    tags:
+      - User
+    parameters:
+      - name: username
+        in: query
+        required: true
+        description: The username of the user to retrieve
+        schema:
+          type: string
+    responses:
+      200:
+        description: User details successfully retrieved
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: 'ok'
+                user:
+                  type: object
+                  properties:
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: '2024-09-01T03:42:54'
+                    email:
+                      type: string
+                      example: 'string'
+                    id:
+                      type: string
+                      format: uuid
+                      example: '36aaa52a-041f-4946-a716-d6b904a232b6'
+                    name:
+                      type: string
+                      example: 'string'
+                    updated_at:
+                      type: string
+                      format: date-time
+                      example: '2024-09-01T03:42:54'
+                    username:
+                      type: string
+                      example: 'string'
+      400:
+        description: Bad request, invalid query parameters
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: 'error'
+                message:
+                  type: string
+                  example: 'Invalid request'
+      404:
+        description: User not found
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: 'error'
+                message:
+                  type: string
+                  example: 'Usuário não existe!'
+      500:
+        description: Internal server error
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: 'error'
+                message:
+                  type: string
+                  example: 'An error has occurred!'
+    """
+
     if request.method == 'GET':
         try:
-            body = request.get_json()
-            username = body['username']
+            username = request.args.get('username')
+
+            if not username:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Username parameter is required'
+                }), 400
+            
             user = User.query.filter_by(username=username).first()
             user_schema = UserSchema()
             payload = user_schema.dump(user)
 
-            if user == None:
+            if user is None:
                 return jsonify({
                     'status': 'error',
                     'message': 'Usuário não existe!'
@@ -105,16 +276,84 @@ def get_one_user():
                 'status': 'ok',
                 'user': payload
             }), 200
-        
-        except:
+    
+        except Exception as e:
             return jsonify({
-                    'status': 'error',
-                    'message': 'An error has occurred!'
-                }), 500
+                'status': 'error',
+                'message': 'An error has occurred!'
+            }), 500
 
 
 @user_route.route('/api/v1/get_users', methods=["GET"])
 def get_users():
+
+    """
+    Get all users.
+---
+tags:
+  - User
+responses:
+  200:
+    description: List of users successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            users:
+              type: array
+              items:
+                type: object
+                properties:
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2024-09-01T03:42:54'
+                  email:
+                    type: string
+                    example: 'string'
+                  id:
+                    type: string
+                    format: uuid
+                    example: '36aaa52a-041f-4946-a716-d6b904a232b6'
+                  name:
+                    type: string
+                    example: 'string'
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2024-09-01T03:42:54'
+                  username:
+                    type: string
+                    example: 'string'
+  404:
+    description: No users found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'Não existe usuários cadastrados!'
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'An error has occurred!'
+        """
+
     if request.method == 'GET':
         try:
             users = User.query.all()
@@ -140,6 +379,72 @@ def get_users():
 
 @user_route.route('/api/v1/delete_user', methods=["DELETE"])
 def delete_user():
+
+    """
+    Delete a user.
+---
+tags:
+  - User
+parameters:
+  - name: body
+    in: body
+    required: true
+    description: JSON body with username and password for authentication
+    schema:
+      type: object
+      required:
+        - user_name
+        - password
+      properties:
+        user_name:
+          type: string
+          description: The username of the user to delete
+        password:
+          type: string
+          description: The password of the user to authenticate the deletion
+responses:
+  200:
+    description: User successfully deleted or incorrect password
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'ok'
+            message:
+              type: string
+              example: 'Usuário deletado com sucesso!' # or 'Senha incorreta!' if password is wrong
+  404:
+    description: User not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'Usuário não existente!'
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'An error has occurred!'
+
+    """
+
     if request.method == 'DELETE':
         try:
             body = request.get_json()
@@ -172,6 +477,171 @@ def delete_user():
                     'message': 'Senha incorreta!'
                 }), 200
             
+        except Exception as error:
+            print(error)
+            return jsonify({
+                    'status': 'error',
+                    'message': 'An error has occurred!'
+                }), 500
+        
+
+@user_route.route('/api/v1/change_user', methods=["PUT"])
+def change_user():
+    
+    """
+    Change a user.
+---
+tags:
+      - User
+description: >
+      This endpoint allows you to change a new user. **Note**: A user must be previously created to test this endpoint.
+parameters:
+  - name: body
+    in: body
+    required: true
+    description: JSON body with all fields containing updated or not user information
+    schema:
+      type: object
+      required:
+        -user_id
+        -name
+        -username
+        -email
+        -password
+        -re_password
+      properties:
+        user_id:
+          type: string
+          description: user id to be changed
+        name:
+          type: string
+          description: new name
+        username:
+          type: string
+          description: new unique username
+        email:
+          type: string
+          description: new email
+        password:
+          type: string
+          description: New Password
+        re_password:
+          type: string
+          description: password confirmation
+responses:
+  200:
+    description: User data updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: ok
+            message:
+              type: string
+              example: 'data changed successfully'
+  404:
+    description: user not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'user not found'
+  409:
+    description: Username is already in use
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'Conflict'
+            message:
+              type: string
+              example: 'Username is already in use'   
+  400:
+    description: user passwords do not match
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'passwords dont match'
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'error'
+            message:
+              type: string
+              example: 'An error has occurred!'
+      """
+
+    if(request.method == 'PUT'):
+        try:
+            body = request.get_json()
+            user_id = body['id']
+            name = body['name']
+            username = body['username']
+            email = body['email']
+            password = body['password']
+            re_password = body['re_password']
+
+            user = User.query.filter_by(id=user_id).first()
+            name_in_use = User.query.filter_by(username=username).first()
+
+            if user == None:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Usuário não encontrado!'
+                }), 404
+            
+            if name_in_use != None and name_in_use.id != user.id:
+                return jsonify({
+                    'status': 'Conflict',
+                    'message': 'Nome de usuário já esta em uso!'
+                }), 409
+            
+            if password != re_password:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Atenção, Senhas não coencidem!'
+                }), 400
+            
+            password_hash = generate_password_hash(password)
+            
+            user.name = name
+            user.username = username
+            user.email = email
+            user.password_hash = password_hash
+
+            db.session.commit()
+            db.session.close()
+
+            return jsonify({
+                'status': 'ok',
+                'message': 'Alteração feita com sucesso!'
+            }), 200
+        
         except Exception as error:
             print(error)
             return jsonify({
