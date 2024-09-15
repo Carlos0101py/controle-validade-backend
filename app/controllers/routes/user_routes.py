@@ -14,6 +14,8 @@ def create_user():
     """
     Create a new user.
     ---
+    tags:
+      - User
     parameters:
       - name: body
         in: body
@@ -92,6 +94,8 @@ def authenticate_user():
     """
     Login to the system.
     ---
+    tags:
+      - User
     parameters:
       - name: body
         in: body
@@ -163,6 +167,8 @@ def get_one_user():
     """
     Get a user by username.
     ---
+    tags:
+      - User
     parameters:
       - name: username
         in: query
@@ -284,6 +290,8 @@ def get_users():
     """
     Get all users.
 ---
+tags:
+  - User
 responses:
   200:
     description: List of users successfully retrieved
@@ -375,6 +383,8 @@ def delete_user():
     """
     Delete a user.
 ---
+tags:
+  - User
 parameters:
   - name: body
     in: body
@@ -481,6 +491,10 @@ def change_user():
     """
     Change a user.
 ---
+tags:
+      - User
+description: >
+      This endpoint allows you to change a new user. **Note**: A user must be previously created to test this endpoint.
 parameters:
   - name: body
     in: body

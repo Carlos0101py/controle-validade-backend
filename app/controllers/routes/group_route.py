@@ -12,6 +12,68 @@ group_route = Blueprint('group_route', __name__)
 
 @group_route.route('/api/v1/create_group', methods=["POST"])
 def create_group():
+
+    """
+    Create a new group.
+---
+tags:
+  - Groups
+summary: Create a new group with a specified name and creator
+description: >
+  This endpoint allows you to create a new group. 
+  You need to provide both `name` and `creator` in the request body.
+parameters:
+  - name: body
+    in: body
+    required: true
+    description: JSON body with group name and creator ID
+    schema:
+      type: object
+      required:
+        - name
+        - creator
+      properties:
+        name:
+          type: string
+          description: The name of the group to be created
+        creator:
+          type: string
+          format: uuid
+          description: The UUID of the user creating the group
+responses:
+  201:
+    description: Group successfully created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: ok
+              description: Operation status
+            message:
+              type: string
+              example: Grupo criado com sucesso!
+              description: Success message
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: error
+              description: Operation status
+            message:
+              type: string
+              example: An error has occurred!
+              description: Error message
+
+    """
+
     if request.method == 'POST':
         try:
             body = request.get_json()
@@ -43,6 +105,69 @@ def create_group():
 
 @group_route.route('/api/v1/add_new_member', methods=["POST"])
 def add_new_member():
+
+    """
+    Add a new member to a group.
+---
+tags:
+  - Groups
+summary: Add a new member to a group by user ID and group ID
+description: >
+  This endpoint allows you to add a new member to a group. 
+  You need to provide both `user_id` and `group_id` in the request body.
+parameters:
+  - name: body
+    in: body
+    required: true
+    description: JSON body with user ID and group ID to add a new member
+    schema:
+      type: object
+      required:
+        - user_id
+        - group_id
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: The UUID of the user to add as a member
+        group_id:
+          type: string
+          format: uuid
+          description: The UUID of the group to which the user will be added
+responses:
+  201:
+    description: Member successfully added to the group
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: ok
+              description: Operation status
+            message:
+              type: string
+              example: Novo membro adicionado com sucesso!
+              description: Success message
+  500:
+    description: Internal server error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              example: error
+              description: Operation status
+            message:
+              type: string
+              example: An error has occurred!
+              description: Error message
+
+    """
+
     if request.method == 'POST':
         try:
             body = request.get_json()
