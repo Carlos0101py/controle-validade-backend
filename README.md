@@ -69,7 +69,7 @@ pip install -r requirements.txt
 ```
 
 Configure as variáveis de ambiente:
-   1. DATABASE_URI = "string de conexão com o MySQL ou similar"
+   1. DATABASE_URI = "mysql://root:'seu_usuario@localhost'/'nome_do_banco'"
    2. SECRET_KEY = "Senha que você preferir"
 
 Faça a inicialização do banco de dados
