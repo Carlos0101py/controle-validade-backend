@@ -12,9 +12,9 @@ def authenticate_user(payload:dict) -> Response:
     return requests.post(ENDPOINT + '/login',
     json=payload)
 
-def get_one_user(payload:dict) -> Response:
+def get_one_user(payload) -> Response:
     return requests.get(ENDPOINT + '/get_one_user',
-    json=payload)
+    params={'username': payload})
 
 def get_users() -> Response:
     return requests.get(ENDPOINT + '/get_users')

@@ -22,7 +22,6 @@ def test_create_user():
     delete_user_response = delete_user(delete_user_payload)
     assert delete_user_response.status_code == 200
 
-
 def test_delete_users():
     payload = {
         'name': 'test_name',
@@ -44,13 +43,10 @@ def test_delete_users():
     delete_user_response = delete_user(delete_user_payload)
     assert delete_user_response.status_code == 200
 
-    get_one_user_payload = {
-        'username': payload.get('username')
-    }
+    username = payload['username']
 
-    get_one_user_response = get_one_user(get_one_user_payload)
+    get_one_user_response = get_one_user(username)
     assert get_one_user_response.status_code == 404
-
 
 def test_authenticate_user():
     payload = {
@@ -96,11 +92,9 @@ def test_get_one_user():
     status = create_user_response.status_code
     assert status == 201
 
-    get_one_user_payload = {
-        'username': payload.get('username')
-    }
+    username = payload['username']
 
-    get_one_user_response = get_one_user(get_one_user_payload)
+    get_one_user_response = get_one_user(username)
     status = get_one_user_response.status_code
     assert status == 200
 
